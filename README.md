@@ -43,11 +43,22 @@ This project uses the Stack Overflow 2018 Developer Survey (98,000+ respondents 
 - **Split:** 80% train / 20% test
 - **Metrics:** R² Score, RMSE
 
-### 3. Data Preprocessing Techniques
-- Missing value imputation (mode/custom mapping for categoricals)
-- Outlier removal (1st–99th percentile for salary)
-- Feature engineering (ordinal encoding for education, numeric mapping for experience ranges, skill counting from multi-value fields)
-- Feature standardization (StandardScaler for clustering)
+### 3. Data Cleaning & Preprocessing
+
+#### How We Handle Missing / Null Values
+
+| Data Issue | Strategy | Rationale |
+|---|---|---|
+| **Missing salary (`ConvertedSalary`)** | **Delete** rows with null/zero salary | Salary is our prediction target. Imputing it (with mean or median) would fabricate the very value we're trying to predict, introducing circular bias into both the regression model and cluster analysis. |
+| **Salary outliers** | **Delete** rows outside 1st–99th percentile | Extreme values (e.g., $1/year or $10M/year) are likely data-entry errors. They skew the mean, distort regression coefficients, and pull K-Means centroids away from meaningful positions. |
+| **Missing categorical features** (Country, DevType, Gender, etc.) | **Fill with `'Unknown'`** (a new category) | Deleting every row with any missing categorical value would slash the dataset dramatically (many columns have 10–30% missing). `'Unknown'` preserves the row's other valid data. For multi-value fields like `LanguageWorkedWith`, `'Unknown'` maps to 0 skills — a neutral and interpretable value. |
+| **Missing ordinal features** (YearsCoding, Satisfaction, Education) | **Fill with neutral midpoint** (0 for years, 4 for satisfaction, 3 for education) | These are mapped to manual numeric scales (not continuous). A neutral midpoint avoids pulling averages in either direction. This is more semantically meaningful than a blind statistical median for ordinal data. |
+
+> **Why not median imputation?** For the target variable, deletion is the only honest choice. For features, category-aware filling (`'Unknown'` / neutral midpoint) is more interpretable than a generic statistical median — especially since most features here are categorical or ordinal, not truly continuous.
+
+#### Other Preprocessing Steps
+- Feature engineering: ordinal encoding for education, numeric mapping for experience ranges, skill counting from multi-value semicolon-separated fields
+- Feature standardization (`StandardScaler`) applied before K-Means clustering to ensure equal feature weighting
 
 ### 4. Exploratory Data Analysis (EDA)
 - Distribution analysis (histograms, box plots)
