@@ -71,11 +71,53 @@ This project uses the Stack Overflow 2018 Developer Survey (98,000+ respondents 
 ## Dataset
 
 **Source:** [Stack Overflow 2018 Developer Survey](https://insights.stackoverflow.com/survey/2018)
+**Kaggle:** [stackoverflow/stack-overflow-2018-developer-survey](https://www.kaggle.com/datasets/stackoverflow/stack-overflow-2018-developer-survey)
 
 - **File:** `survey_results_public.csv` (98,855 respondents, 129 features)
 - **Schema:** `survey_results_schema.csv` (column descriptions)
 - **Coverage:** Global, 100+ countries
 - **Key Fields Used:** Country, Employment, Education, DevType, YearsCoding, ConvertedSalary, LanguageWorkedWith, FrameworkWorkedWith, DatabaseWorkedWith, PlatformWorkedWith
+
+---
+
+## Screenshots of Outputs & Model Results
+
+### Overview Dashboard
+![Overview](screenshots/Overview.png)
+
+### Exploratory Data Analysis (EDA)
+![EDA Dashboard](screenshots/EDA.png)
+
+### Salary Predictor (Interactive Prediction Interface)
+![Salary Predictor](screenshots/SalaryPredictor.png)
+
+### K-Means Clustering (Developer Segmentation)
+![K-Means Clusters](screenshots/KMeans.png)
+
+### Model Performance (Linear Regression Metrics & Residuals)
+![Model Performance](screenshots/ModelPerformance.png)
+
+---
+
+## Deployment
+
+The project is deployed as a **Streamlit** web application with:
+- **Interactive EDA Dashboard** — salary distributions, top countries, language analysis, correlation heatmap
+- **Salary Prediction Interface** — input developer profile via sliders → get predicted salary with feature contribution breakdown
+- **Cluster Explorer** — visualize K-Means developer segments
+- **Model Performance** — R², RMSE, actual vs predicted, residual distribution
+
+### Run Locally
+
+```bash
+# Create virtual environment & install dependencies
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+# Run the Streamlit app
+streamlit run app.py
+```
 
 ---
 
@@ -95,9 +137,15 @@ This project uses the Stack Overflow 2018 Developer Survey (98,000+ respondents 
 
 ## How to Run
 
-1. Ensure Python 3.x with the following packages: `pandas`, `numpy`, `matplotlib`, `seaborn`, `scikit-learn`
-2. Place `survey_results_public.csv` and `survey_results_schema.csv` in the same directory
-3. Open `.ipynb` and run all cells sequentially
+### Jupyter Notebook
+1. Ensure Python 3.x with the following packages: `pandas`, `numpy`, `matplotlib`, `seaborn`, `scikit-learn`, `kagglehub`
+2. Open `main.ipynb` and run all cells sequentially — the dataset is downloaded automatically from Kaggle
+
+### Streamlit App
+```bash
+source .venv/bin/activate
+streamlit run app.py
+```
 
 ---
 
@@ -105,8 +153,14 @@ This project uses the Stack Overflow 2018 Developer Survey (98,000+ respondents 
 
 ```
 DA/
-├── .ipynb                        # Main analysis notebook
-├── survey_results_public.csv     # Survey responses (98,855 rows)
-├── survey_results_schema.csv     # Column descriptions
-└── README.md                     # This file
+├── main.ipynb                    # Jupyter notebook (full analysis)
+├── app.py                        # Streamlit web app (dashboard + predictor)
+├── requirements.txt              # Python dependencies
+├── README.md                     # This file
+├── .gitignore                    # Ignores .venv/, data/, __pycache__
+├── screenshots/                  # Output screenshots for README
+├── data/                         # Dataset CSVs (auto-downloaded from Kaggle)
+│   ├── survey_results_public.csv
+│   └── survey_results_schema.csv
+└── .venv/                        # Virtual environment (not committed)
 ```
