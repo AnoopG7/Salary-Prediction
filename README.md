@@ -101,6 +101,8 @@ This project uses the Stack Overflow 2018 Developer Survey (98,000+ respondents 
 
 ## Deployment
 
+**🔗 Live App:** [https://anoop-salary-prediction.streamlit.app](https://anoop-salary-prediction.streamlit.app/)
+
 The project is deployed as a **Streamlit** web application with:
 - **Interactive EDA Dashboard** — salary distributions, top countries, language analysis, correlation heatmap
 - **Salary Prediction Interface** — input developer profile via sliders → get predicted salary with feature contribution breakdown
